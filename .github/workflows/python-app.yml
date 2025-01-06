@@ -23,9 +23,16 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        python app.py
+        pip install -r requirements.txt
+
+    - name: Run the app
+      run: |
+        python app.py &
+        sleep 5  # Give the app time to start
+
+    - name: Verify the app
+      run: curl -f http://127.0.0.1:5000
