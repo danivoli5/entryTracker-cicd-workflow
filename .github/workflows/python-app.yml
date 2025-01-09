@@ -40,7 +40,9 @@ jobs:
         sleep 5  # Give the app time to start
 
     - name: Verify the app
-      run: curl -f http://127.0.0.1:5000
+      run: | 
+        curl -f http://127.0.0.1:5000
+        pkill -f "python app.py" || true  # Kill the Flask app process if running
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
