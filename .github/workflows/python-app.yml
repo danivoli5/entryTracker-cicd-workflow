@@ -52,7 +52,7 @@ jobs:
       id: test-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: dev/entryTracker
+        ECR_REPOSITORY: dev/entrytracker
         IMAGE_TAG: latest
       run: |
         # Build the Docker compose
