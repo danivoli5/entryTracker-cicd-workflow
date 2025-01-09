@@ -36,3 +36,33 @@ jobs:
 
     - name: Verify the app
       run: curl -f http://127.0.0.1:5000
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and Test the Docker Image
+      id: test-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dev/entryTracker
+        IMAGE_TAG: latest
+      run: |
+        # Build the Docker compose
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
+        export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+        export ECR_REPOSITORY=dev/cowsay
+        export IMAGE_TAG=latest
+        docker-compose up -d
+        echo "Waiting for the application to initialize..."
+        sleep 20
+      
+        # Verify application is running
+        curl -f http://localhost:5000 || exit 1

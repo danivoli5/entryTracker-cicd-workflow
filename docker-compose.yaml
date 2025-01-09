@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  # Use the built image
     container_name: flask-app
     environment:
       - DB_HOST=${DB_HOST}    # change this when replacing MySQL contianer with another database
