@@ -63,7 +63,7 @@ jobs:
         # Build the Docker compose
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
         export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-        export ECR_REPOSITORY=dev/cowsay
+        export ECR_REPOSITORY=dev/entrytracker
         export IMAGE_TAG=latest
         docker-compose up -d
         echo "Waiting for the application to initialize..."
