@@ -17,10 +17,10 @@ cd /home/ubuntu/entrytrcker-cicd/
 
 # Restart services with the new image
 echo "Restarting services with the new image..."
-docker-compose down
+docker compose down
 # sleep few seconds to allow the containers to stop
 sleep 10
 
-docker-compose up -d
+docker compose up -d
 
 echo "Deployment completed successfully."
