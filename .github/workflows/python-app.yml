@@ -64,13 +64,13 @@ jobs:
       id: test-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: dev/entrytracker
+        ECR_REPOSITORY: development/entrytracker
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         # Build the Docker compose
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
         export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-        export ECR_REPOSITORY=dev/entrytracker
+        export ECR_REPOSITORY=development/entrytracker
         export IMAGE_TAG=$IMAGE_TAG
         docker-compose up -d
         echo "Waiting for the application to initialize..."
@@ -83,7 +83,7 @@ jobs:
       if: success() # Only push the image if all previous steps succeeded
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: dev/entrytracker
+        ECR_REPOSITORY: development/entrytracker
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
