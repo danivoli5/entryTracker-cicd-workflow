@@ -65,17 +65,18 @@ jobs:
 
     - name: Build and Test the Docker Image
       id: test-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: development/entrytracker
-        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
-        # Build the Docker compose
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
-        docker image ls
+        # Build the Docker file and run the docker-compose file
         export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
         export ECR_REPOSITORY=development/entrytracker
-        export IMAGE_TAG=$IMAGE_TAG
+        export IMAGE_TAG=${{ steps.increment-git-tag.outputs.git-tag }}
+        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_PORT=${{ secrets.DB_PORT }}
+        export DB_USER=${{ secrets.DB_USER }}
+        export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+        export DB_NAME=${{ secrets.DB_NAME }}
+        docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} . 
+        docker image ls
         docker-compose up -d
         echo "Waiting for the application to initialize..."
         sleep 20
@@ -122,6 +123,11 @@ jobs:
           export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
           export ECR_REPOSITORY=development/entrytracker
           export IMAGE_TAG=${{ needs.build.outputs.image_tag }}
+          export DB_HOST=${{ secrets.DB_HOST }}
+          export DB_PORT=${{ secrets.DB_PORT }}
+          export DB_USER=${{ secrets.DB_USER }}
+          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          export DB_NAME=${{ secrets.DB_NAME }}
           /home/ubuntu/entrytrcker-cicd/deploy.sh
         EOF
 
