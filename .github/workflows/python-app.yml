@@ -81,7 +81,7 @@ jobs:
         sleep 20
       
         # Verify application is running
-        curl -f http://localhost:5000 || exit 1
+        curl -f http://localhost || exit 1
 
     - name: Push the Image to ECR
       if: success() # Only push the image if all previous steps succeeded
@@ -129,4 +129,4 @@ jobs:
       if: success()
       run: |
         echo "Validating application availability..."
-        curl -f http://ec2-13-234-122-242.ap-south-1.compute.amazonaws.com:5000 || exit 1
+        curl -f http://ec2-13-234-122-242.ap-south-1.compute.amazonaws.com || exit 1
