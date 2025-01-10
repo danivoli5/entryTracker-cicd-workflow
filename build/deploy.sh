@@ -1,5 +1,7 @@
 #!/bin/bash
 
+### script to deploy the latest in the ec2 instance ###
+
 set -e
 
 # Set environment variables
