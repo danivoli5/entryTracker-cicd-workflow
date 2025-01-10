@@ -115,10 +115,11 @@ jobs:
 
     - name: SSH into EC2 and Deploy
       run: |
-          ssh -i web-server.pem -o StrictHostKeyChecking=no ubuntu@ec2-13-234-122-242.ap-south-1.compute.amazonaws.com    
+        ssh -i web-server.pem -o StrictHostKeyChecking=no ubuntu@ec2-13-234-122-242.ap-south-1.compute.amazonaws.com << EOF
           set -e
           echo "Running deployment script on EC2 instance..."
-          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }} \
-          ECR_REPOSITORY=development/entrytracker \
-          IMAGE_TAG=${{ needs.build.outputs.image_tag }} \
+          export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          export ECR_REPOSITORY=development/entrytracker
+          export IMAGE_TAG=${{ needs.build.outputs.image_tag }}
           /home/ubuntu/entrytrcker-cicd/deploy.sh
+        EOF
