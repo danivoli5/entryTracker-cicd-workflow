@@ -23,4 +23,7 @@ sleep 10
 
 docker compose up -d
 
+#sleep few secondes to let the app up 10
+sleep 10
+
 echo "Deployment completed successfully."
