@@ -97,8 +97,8 @@ jobs:
     steps:
     - name: Create SSH Key
       run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
-        chmod 600 ec2-key.pem
+        echo "${{ secrets.EC2_SSH_KEY }}" > web-server.pem
+        chmod 600 web-server.pem
 
 
     - name: Configure AWS credentials
@@ -115,7 +115,7 @@ jobs:
 
     - name: SSH into EC2 and Deploy
       run: |
-        ssh -i ec2-key.pem ubuntu@ec2-13-234-122-242.ap-south-1.compute.amazonaws.com << EOF
+        ssh -i web-server.pem ubuntu@ec2-13-234-122-242.ap-south-1.compute.amazonaws.com << EOF
           set -e
           echo "Running deployment script on EC2 instance..."
           ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }} \
