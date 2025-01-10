@@ -115,7 +115,7 @@ jobs:
 
     - name: SSH into EC2 and Deploy
       run: |
-          ssh -i ec2-key.pem -o StrictHostKeyChecking=no ubuntu@your-ec2-public-ip       
+          ssh -i ec2-key.pem -o StrictHostKeyChecking=no ubuntu@ec2-13-234-122-242.ap-south-1.compute.amazonaws.com    
           set -e
           echo "Running deployment script on EC2 instance..."
           ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }} \
