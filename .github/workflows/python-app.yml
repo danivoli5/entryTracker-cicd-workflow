@@ -83,7 +83,7 @@ jobs:
       if: success() # Only push the image if all previous steps succeeded
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: dev/cowsay
+        ECR_REPOSITORY: dev/entrytracker
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
