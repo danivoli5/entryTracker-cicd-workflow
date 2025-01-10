@@ -55,21 +55,35 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Automatic Tagging of Releases
+      id: increment-git-tag
+      run: |
+        bash ./build/git_update.sh -v major
+
     - name: Build and Test the Docker Image
       id: test-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: dev/entrytracker
-        IMAGE_TAG: latest
+        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         # Build the Docker compose
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
         export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
         export ECR_REPOSITORY=dev/entrytracker
-        export IMAGE_TAG=latest
+        export IMAGE_TAG=$IMAGE_TAG
         docker-compose up -d
         echo "Waiting for the application to initialize..."
         sleep 20
       
         # Verify application is running
         curl -f http://localhost:5000 || exit 1
+
+    - name: Push the Image to ECR
+      if: success() # Only push the image if all previous steps succeeded
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dev/cowsay
+        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+      run: |
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
