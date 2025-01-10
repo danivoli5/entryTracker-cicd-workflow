@@ -58,4 +58,4 @@ aws --version
 echo "AWS CLI installed and ready to use."
 
 # ECR Retrieve an authentication token and authenticate your Docker client to your registry. 
-aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ACCOUNT-NUMBER.dkr.ecr.ap-south-1.amazonaws.com
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 248189942880.dkr.ecr.ap-south-1.amazonaws.com
