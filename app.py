@@ -34,11 +34,16 @@ def create_table_if_not_exists():
     finally:
         connection.close()
 
+def get_version():
+    version = os.environ.get('IMAGE_TAG', '1.0')
+    return version
+
 @app.route('/')
 def home():
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    version = get_version()
 
     current_entry = {
         "hostname": hostname,
@@ -76,6 +81,7 @@ def home():
         connection.close()
 
         return jsonify({
+            "version": version,
             "message": "Data fetched successfully from the database.",
             "current_entry": current_entry,
             "previous_entries": previous_entries
