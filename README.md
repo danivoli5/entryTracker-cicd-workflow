@@ -5,6 +5,12 @@ This document describes the automated workflow for building, testing, tagging, a
 ---
 
 ## Key Features
+The application is a 3-tier architecture, orchestrated by Docker Compose, include:
+
+- Nginx: Acting as a reverse proxy to handle incoming requests.
+
+- Python: Flask server running as the application layer.
+- MySQL: Functioning as the database backend.
 
 ### 1. Build and Test
 - **Python Environment**: Installs Python 3.10 and application dependencies (`flask`, `pymysql`).
