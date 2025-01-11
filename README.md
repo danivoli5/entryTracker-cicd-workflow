@@ -41,7 +41,7 @@ The application is hosted at **[http://ec2-13-234-122-242.ap-south-1.compute.ama
 
 Sensitive values are securely stored in **GitHub Secrets** and loaded during the workflow. These include:
 - **Database**: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
-- **AWS Configuration**: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `ECR_REGISTRY`, `ECR_REPOSITORY`
+- **AWS Configuration**: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
 
 ---
 ## Supporting Scripts
